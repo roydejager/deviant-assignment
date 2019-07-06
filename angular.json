@@ -126,5 +126,8 @@
       }
     }
   },
-  "defaultProject": "deviant-assignment"
+  "defaultProject": "deviant-assignment",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }
