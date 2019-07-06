@@ -2,15 +2,19 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
 
-// modules
+// Modules
 import { AppRoutingModule } from './app-routing.module';
 import { ClarityModule } from '@clr/angular';
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+
+// Services
+import { InMememoryDataService } from '../app/services/in-memory-data.service';
+import { ApiService } from '../app/services/api.service';
 
 // Components
 import { AppComponent } from './app.component';
-
-
 
 @NgModule({
   declarations: [
@@ -20,9 +24,13 @@ import { AppComponent } from './app.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    ClarityModule
+    ClarityModule,
+    HttpClientModule,
+    HttpClientInMemoryWebApiModule.forRoot(InMememoryDataService),
   ],
-  providers: [],
+  providers: [
+    ApiService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
