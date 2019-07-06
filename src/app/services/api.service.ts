@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { HttpClient } from '@angular/common/http';
 import { Assignment } from '../models';
 import { Observable } from 'rxjs';
 
@@ -11,6 +12,6 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
   getAssignment(): Observable<Assignment> {
-    return this.http.get<Assignment>('api/assignment');
+    return this.http.get<Assignment>(`${environment}/assignment`);
   }
 }
