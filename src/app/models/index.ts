@@ -1,3 +1,4 @@
-export { Assignment } from './assignment';
-export { Question } from './question';
-export { Answer } from './answer';
+export * from './assignment';
+export * from './question';
+export * from './answer';
+export * from './action-payload';
