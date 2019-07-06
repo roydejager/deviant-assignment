@@ -20,9 +20,13 @@ import { AppComponent } from './app.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    ClarityModule
+    ClarityModule,
+    HttpClientModule,
+    HttpClientInMemoryWebApiModule.forRoot(InMememoryDataService),
   ],
-  providers: [],
+  providers: [
+    ApiService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
