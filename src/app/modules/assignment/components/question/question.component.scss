@@ -1,0 +1,14 @@
+.previous {
+  background-color: #00243822;
+  display: inline-block;
+  border-radius: 0 10px 10px 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  transition: background-color 100ms ease-out;
+
+  &:hover {
+    background-color: #002438;
+  }
+}

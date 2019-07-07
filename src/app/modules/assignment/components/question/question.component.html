@@ -1,1 +1,29 @@
-<h1>Question</h1>
+<ng-container *ngIf="{
+    currentQuestion: currentQuestion$ | async,
+    questionNumber: questionNumber$ | async
+  } as assignment"
+>
+
+  <a
+    *ngIf="assignment.questionNumber"
+    [routerLink]="['/vraag', assignment.questionNumber - 1]"
+  >
+    <div class="previous">
+      <clr-icon shape="angle left" size="70" class="is-inverse"></clr-icon>
+    </div>
+  </a>
+  <h2>{{ assignment.currentQuestion.question }}</h2>
+  <ng-container [ngSwitch]="assignment.currentQuestion.questionType">
+    <div *ngSwitchCase="'multiple_choice'">
+      <div>
+        multiple choice
+      </div>
+    </div>
+    <div *ngSwitchCase="'open_question'">
+      <textarea></textarea>
+    </div>
+  </ng-container>
+  <a class="btn" [routerLink]="['/vraag', assignment.questionNumber + 1]">
+    Volgende vraag
+  </a>
+</ng-container>

@@ -7,7 +7,7 @@ import { Subscription, Observable } from 'rxjs';
 @Component({
   selector: 'app-assignment',
   templateUrl: './assignment.component.html',
-  styleUrls: ['./assignment.component.css']
+  styleUrls: ['./assignment.component.scss']
 })
 export class AssignmentComponent implements OnInit, OnDestroy {
   public assignment$: Observable<any>;
@@ -22,12 +22,6 @@ export class AssignmentComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.route.params.subscribe((params) => {
-      console.log(params);
-    });
-    this.routerSubscription = this.router.events.subscribe(event => {
-      console.log(event)
-    });
     this.store.dispatch(new AssignmentFetch());
   }
 

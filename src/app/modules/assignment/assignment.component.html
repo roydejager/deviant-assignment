@@ -1,7 +1,10 @@
-<h1>
-  {{ (assignment$ | async).payload.name }}
-</h1>
-<p>
-  {{ (assignment$ | async).payload.introText }}
-</p>
-<router-outlet></router-outlet>
+<div class="header">
+  <div class="wrapper">
+    <h3>
+      {{ (assignment$ | async).payload.name }}
+    </h3>
+  </div>
+</div>
+<div class="wrapper">
+  <router-outlet></router-outlet>
+</div>

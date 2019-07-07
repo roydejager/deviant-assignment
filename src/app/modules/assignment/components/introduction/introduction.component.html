@@ -1,1 +1,8 @@
-<p>introduction works!</p>
+<ng-container *ngIf="assignment$ | async as assignment">
+<p>
+  {{ assignment.payload.introText }}
+</p>
+<a class="btn" routerLink="/vraag/0">
+  Maak de opdracht
+</a>
+</ng-container>
