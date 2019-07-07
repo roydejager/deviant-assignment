@@ -23,10 +23,16 @@ import { ApiService } from '../app/services/api.service';
 import { AppComponent } from './app.component';
 import { EffectsModule } from '@ngrx/effects';
 import { environment } from '../environments/environment';
+import { AssignmentComponent } from './modules/assignment/assignment.component';
+import { QuestionComponent } from './modules/assignment/components/question/question.component';
+import { IntroductionComponent } from './modules/assignment/components/introduction/introduction.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AssignmentComponent,
+    QuestionComponent,
+    IntroductionComponent
   ],
   imports: [
     BrowserModule,

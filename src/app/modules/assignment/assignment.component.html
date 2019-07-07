@@ -1,0 +1,7 @@
+<h1>
+  {{ (assignment$ | async).payload.name }}
+</h1>
+<p>
+  {{ (assignment$ | async).payload.introText }}
+</p>
+<router-outlet></router-outlet>

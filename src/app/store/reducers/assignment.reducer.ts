@@ -9,6 +9,10 @@ export interface State {
 export const initialState = {
   loading: false,
   error: false,
+  payload: {
+    name: '',
+    introText: '',
+  }
 };
 
 export function reducer(state = initialState, action: ActionPayload): State {
@@ -25,6 +29,6 @@ export function reducer(state = initialState, action: ActionPayload): State {
     case ActionTypes.ASSIGNMENT_FETCH_CANCEL:
       return { ...state, loading: false, error: false };
     default:
-      return state;
+      return initialState;
   }
 }
