@@ -8,17 +8,9 @@ import { IntroductionComponent } from './modules/assignment/components/introduct
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'opdrachten',
-    pathMatch: 'full'
-  },
-  {
-    path: 'opdrachten',
-    component: AssignmentComponent,
-  },
-  {
-    path: 'opdracht/:number',
     component: AssignmentComponent,
     children: [
+      { path: '', redirectTo: 'introductie', pathMatch: 'full' },
       { path: 'introductie', component: IntroductionComponent },
       { path: 'vraag/:number', component: QuestionComponent },
       { path: 'antwoorden', component: IntroductionComponent }
