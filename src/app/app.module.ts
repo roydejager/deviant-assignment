@@ -20,18 +20,10 @@ import { effects } from './store/effects';
 import { AppComponent } from './app.component';
 import { EffectsModule } from '@ngrx/effects';
 import { environment } from '../environments/environment';
-import { AssignmentComponent } from './modules/assignment/assignment.component';
-import { QuestionComponent } from './modules/assignment/pages/question/question.component';
-import { IntroductionComponent } from './modules/assignment/pages/introduction/introduction.component';
-import { CalculateTotalPercentagePipe } from './pipes/delta-calculations.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AssignmentComponent,
-    QuestionComponent,
-    IntroductionComponent,
-    CalculateTotalPercentagePipe
   ],
   imports: [
     BrowserModule,
