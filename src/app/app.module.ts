@@ -43,14 +43,12 @@ import { CalculateTotalPercentagePipe } from './pipes/delta-calculations.pipe';
     BrowserAnimationsModule,
     ClarityModule,
     HttpClientModule,
-    HttpClientInMemoryWebApiModule.forRoot(InMememoryDataService),
+    SharedModule.forRoot(),
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(effects),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
   ],
   providers: [
-    ApiService,
-    LocalStorageService
   ],
   bootstrap: [AppComponent]
 })
