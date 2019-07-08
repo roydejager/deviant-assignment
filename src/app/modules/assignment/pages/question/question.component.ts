@@ -29,7 +29,7 @@ export class QuestionComponent implements OnInit {
     if (!localProgress) {
       this.router.navigate(['/introductie']);
     }
-    // if (localProgress) {
+    // if (localProgress < ) {
     //   this.router.navigate(['/vraag', parseInt(localProgress, 10) + 1]);
     // }
 

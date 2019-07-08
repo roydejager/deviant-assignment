@@ -13,7 +13,7 @@ export class IntroductionComponent implements OnInit {
   constructor(
     private store: Store<{ assignment }>
   ) {
-    this.assignment$ = this.store.select((state) => state.assignment)
+    this.assignment$ = this.store.select((state) => state.assignment);
   }
 
   ngOnInit() {

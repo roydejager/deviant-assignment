@@ -12,9 +12,9 @@
     </div>
   </div>
 
-  <h3>
+  <h4>
     Vraag {{ subscriptions.questionNumber }} / {{ subscriptions.assignment.payload.questions?.length }}
-  </h3>
+  </h4>
 
   <a
     *ngIf="subscriptions.questionNumber !== 1"
@@ -41,12 +41,10 @@
   <div class="anwser-options-container">
     <ng-container [ngSwitch]="subscriptions.currentQuestion?.questionType">
       <div *ngSwitchCase="'multiple_choice'">
-        <div>
-          multiple choice
-        </div>
+        <app-radio-buttons></app-radio-buttons>
       </div>
       <div *ngSwitchCase="'open_question'">
-        <textarea placeholder="Vul hier je antwoord in"></textarea>
+        <app-textarea [placeholder]="'Vul hier je antwoord in'"></app-textarea>
       </div>
     </ng-container>
 

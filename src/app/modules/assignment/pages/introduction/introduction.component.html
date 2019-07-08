@@ -8,7 +8,7 @@
   </p>
   <ng-container *ngIf="progression$ | async as progression">
     {{progression}}
-    <ng-container *ngIf="progression === '0'">
+    <ng-container *ngIf="progression">
       <a  class="btn" (click)="setLocalStorageItem()" routerLink="/vraag/1">
         Opnieuw
       </a>
@@ -18,11 +18,11 @@
       </a>
     </ng-container>
 
-    <ng-container *ngIf="!progression">
+  </ng-container>
+
+    <ng-container >
       <a class="btn" (click)="setLocalStorageItem()" routerLink="/vraag/1">
         Maak de opdracht
       </a>
     </ng-container>
-  </ng-container>
-
 </ng-container>
