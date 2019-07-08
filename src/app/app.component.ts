@@ -14,7 +14,6 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe((f) => {
 
-      console.log(f,' assign')
     });
     this.api.getAssignment().subscribe((assignment) => console.log(assignment));
   }

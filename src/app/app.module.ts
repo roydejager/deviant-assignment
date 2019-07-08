@@ -26,13 +26,15 @@ import { environment } from '../environments/environment';
 import { AssignmentComponent } from './modules/assignment/assignment.component';
 import { QuestionComponent } from './modules/assignment/components/question/question.component';
 import { IntroductionComponent } from './modules/assignment/components/introduction/introduction.component';
+import { CalculateTotalPercentagePipe } from './pipes/delta-calculations.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     AssignmentComponent,
     QuestionComponent,
-    IntroductionComponent
+    IntroductionComponent,
+    CalculateTotalPercentagePipe
   ],
   imports: [
     BrowserModule,
