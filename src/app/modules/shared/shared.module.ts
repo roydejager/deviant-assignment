@@ -6,6 +6,9 @@ import { CommonModule } from '@angular/common';
 import { ClarityModule } from '@clr/angular';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 
+// Pipes
+import { CalculateTotalPercentagePipe } from './pipes/delta-calculations.pipe';
+
 // Services
 import { ApiService } from './services/api.service';
 import { InMememoryDataService } from './services/in-memory-data.service';
@@ -20,7 +23,7 @@ import { RadioButtonsComponent } from './components/radio-buttons/radio-buttons.
   declarations: [
     TextareaComponent,
     RadioButtonsComponent,
-
+    CalculateTotalPercentagePipe
   ],
   imports: [
     CommonModule,
@@ -30,6 +33,7 @@ import { RadioButtonsComponent } from './components/radio-buttons/radio-buttons.
   exports: [
     TextareaComponent,
     RadioButtonsComponent,
+    CalculateTotalPercentagePipe
   ]
 })
 export class SharedModule {
