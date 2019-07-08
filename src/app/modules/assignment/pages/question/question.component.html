@@ -8,36 +8,19 @@
   <h4>
     Vraag {{ subscriptions.questionNumber }} / {{ subscriptions.assignment.payload.questions?.length }}
   </h4>
-
-  <a
-    *ngIf="subscriptions.questionNumber !== 1"
-    [routerLink]="['/vraag', subscriptions.questionNumber - 1]"
-  >
-    <div class="qst-btn previous">
-      <clr-icon shape="angle left" size="70" class="is-inverse"></clr-icon>
-    </div>
-  </a>
-
-  <a
-    *ngIf="subscriptions.questionNumber < subscriptions.progression"
-    [routerLink]="['/vraag', subscriptions.questionNumber + 1]"
-  >
-    <div class="qst-btn next">
-      <clr-icon shape="angle right" size="70" class="is-inverse"></clr-icon>
-    </div>
-  </a>
-
   <h2>{{ subscriptions.currentQuestion?.question }}</h2>
-  <div>
 
-  </div>
   <div class="anwser-options-container">
     <ng-container [ngSwitch]="subscriptions.currentQuestion?.questionType">
       <div *ngSwitchCase="'multiple_choice'">
         <app-radio-buttons></app-radio-buttons>
       </div>
       <div *ngSwitchCase="'open_question'">
-        <app-textarea [placeholder]="'Vul hier je antwoord in'"></app-textarea>
+        <app-textarea
+          (valueChanged)="valueChange($event)"
+          [placeholder]="'Vul hier je antwoord in'"
+        >
+        </app-textarea>
       </div>
     </ng-container>
 
@@ -57,4 +40,29 @@
 
   </div>
 
+  <a
+    *ngIf="subscriptions.questionNumber !== 1"
+    [routerLink]="['/vraag', subscriptions.questionNumber - 1]"
+  >
+    <div class="qst-btn previous">
+      <clr-icon shape="angle left" size="70" class="is-inverse"></clr-icon>
+    </div>
+  </a>
+
+  <a
+    *ngIf="subscriptions.questionNumber <= subscriptions.progression"
+    [routerLink]="['/vraag', subscriptions.questionNumber + 1]"
+  >
+    <div class="qst-btn next">
+      <clr-icon shape="angle right" size="70" class="is-inverse"></clr-icon>
+    </div>
+  </a>
+
+  <div class="progress-bar-container">
+    <h3>Progressie</h3>
+    <app-progress-bar
+      [progression]="subscriptions.progression | totalPercentage:subscriptions.assignment.payload.questions?.length"
+    >
+    </app-progress-bar>
+  </div>
 </ng-container>

@@ -64,4 +64,8 @@ export class QuestionComponent implements OnInit {
       return localStorage.setItem('progression', stringValue);
     }
   }
+
+  valueChange($event) {
+    console.log($event, 'event')
+  }
 }
