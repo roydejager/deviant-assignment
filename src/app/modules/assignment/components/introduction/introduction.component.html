@@ -1,8 +1,28 @@
 <ng-container *ngIf="assignment$ | async as assignment">
-<p>
-  {{ assignment.payload.introText }}
-</p>
-<a class="btn" routerLink="/vraag/0">
-  Maak de opdracht
-</a>
+  <p>
+    {{ assignment.payload.introText }}
+  </p>
+
+  <p>
+    Je bent al begonnen aan deze opdacht. Wil je verder gaan of de opdracht opnieuw maken?
+  </p>
+  <ng-container *ngIf="progression$ | async as progression">
+    {{progression}}
+    <ng-container *ngIf="progression === '0'">
+      <a  class="btn" (click)="setLocalStorageItem()" routerLink="/vraag/1">
+        Opnieuw
+      </a>
+
+      <a class="btn" [routerLink]="['/vraag', progression]">
+        Ga verder
+      </a>
+    </ng-container>
+
+    <ng-container *ngIf="!progression">
+      <a class="btn" (click)="setLocalStorageItem()" routerLink="/vraag/1">
+        Maak de opdracht
+      </a>
+    </ng-container>
+  </ng-container>
+
 </ng-container>

@@ -1,14 +1,65 @@
-.previous {
+.qst-btn {
   background-color: #00243822;
   display: inline-block;
-  border-radius: 0 10px 10px 0;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  left: 0;
   transition: background-color 100ms ease-out;
+  padding: 20px 0;
 
   &:hover {
     background-color: #002438;
   }
+}
+.previous {
+  border-radius: 0 10px 10px 0;
+  left: 0;
+}
+
+.next {
+  border-radius: 10px 0 0 10px;
+  right: 0;
+}
+
+.anwser-options-container {
+  text-align: center;
+}
+
+.progress-bar-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #C5E5EF;
+  text-align: center;
+  padding: 15px 0;
+
+  & h3 {
+    margin-top: 0;
+    margin-bottom: 5px;
+  }
+}
+
+textarea {
+  max-width: 400px;
+  height: 200px;
+  width: 100%;
+}
+
+.progress-bar {
+  background-color: #eee;
+  height: 15px;
+  position: relative;
+}
+
+.progression  {
+  background-color: #0065AB;
+  height: 15px;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.btn {
+  margin-right: 0;
 }
