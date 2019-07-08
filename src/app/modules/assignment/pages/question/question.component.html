@@ -17,6 +17,7 @@
       </div>
       <div *ngSwitchCase="'open_question'">
         <app-textarea
+          [value]="'test antwoord'"
           (valueChanged)="valueChange($event)"
           [placeholder]="'Vul hier je antwoord in'"
         >

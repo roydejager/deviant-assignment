@@ -8,6 +8,8 @@ import { Placeholder } from '@angular/compiler/src/i18n/i18n_ast';
 })
 export class TextareaComponent implements OnInit {
   @Input() placeholder: string;
+  @Input() value: string;
+
   @Output() valueChanged = new EventEmitter<string>();
 
   constructor() { }
