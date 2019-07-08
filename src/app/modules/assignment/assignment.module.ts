@@ -10,6 +10,7 @@ import { ClarityModule } from '@clr/angular';
 import { AssignmentComponent } from './assignment.component';
 import { QuestionComponent } from './pages/question/question.component';
 import { IntroductionComponent } from './pages/introduction/introduction.component';
+import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { IntroductionComponent } from './pages/introduction/introduction.compone
     AssignmentComponent,
     QuestionComponent,
     IntroductionComponent,
+    ProgressBarComponent,
   ],
   imports: [
     AssignmentRoutingModule,

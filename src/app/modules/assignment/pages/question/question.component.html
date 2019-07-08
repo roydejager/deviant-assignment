@@ -5,13 +5,6 @@
     progression: progression$ | async
   } as subscriptions"
 >
-  <div class="progress-bar-container">
-    <h3>Progressie</h3>
-    <div class="progress-bar">
-      <div class="progression" [ngStyle]="{ 'width.%': subscriptions.progression | totalPercentage:subscriptions.assignment.payload.questions?.length }"></div>
-    </div>
-  </div>
-
   <h4>
     Vraag {{ subscriptions.questionNumber }} / {{ subscriptions.assignment.payload.questions?.length }}
   </h4>
