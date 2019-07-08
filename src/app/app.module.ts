@@ -18,6 +18,7 @@ import { effects } from './store/effects';
 // Services
 import { InMememoryDataService } from '../app/services/in-memory-data.service';
 import { ApiService } from '../app/services/api.service';
+import { LocalStorageService } from '../app/services/local-storage.service';
 
 // Components
 import { AppComponent } from './app.component';
@@ -48,7 +49,8 @@ import { CalculateTotalPercentagePipe } from './pipes/delta-calculations.pipe';
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
   ],
   providers: [
-    ApiService
+    ApiService,
+    LocalStorageService
   ],
   bootstrap: [AppComponent]
 })
