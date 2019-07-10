@@ -12,10 +12,15 @@ const routes: Routes = [
     path: '',
     component: AssignmentComponent,
     children: [
-      { path: '', redirectTo: 'introductie', pathMatch: 'full' },
-      { path: 'introductie', component: IntroductionComponent },
-      { path: 'vraag/:number', component: QuestionComponent },
-      { path: 'antwoorden', component: IntroductionComponent }
+      {
+        path: ':subject/:assignment',
+        children: [
+          { path: 'introductie', component: IntroductionComponent },
+          { path: 'vraag/:questionNumber', component: QuestionComponent },
+          { path: 'antwoorden', component: IntroductionComponent }
+        ]
+      },
+      { path: '', redirectTo: 'maatschappijleer/1/introductie', pathMatch: 'full' },
     ]
   }
 ];
