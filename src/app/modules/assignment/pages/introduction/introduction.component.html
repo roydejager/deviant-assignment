@@ -1,0 +1,42 @@
+<ng-container
+  *ngIf="{
+    assignment: assignment$ | async,
+    params: route.params | async,
+    progression: progression$ | async
+  } as data"
+>
+  <p>
+    {{ data.assignment.payload.introText }}
+  </p>
+
+  <p>
+    Je bent al begonnena aan deze opdacht. Wil je verder gaan of de opdracht opnieuw maken?
+  </p>
+    {{data.progression}}
+    <ng-container *ngIf="progression">
+      <a
+        class="btn"
+        (click)="setLocalStorageItem()"
+        [routerLink]="['/', data.params.subject, data.params.assignment, 'vraag', '1']"
+      >
+        Opnieuw
+      </a>
+
+      <a
+        class="btn"
+        [routerLink]="['/', data.params.subject, data.params.assignment, 'vraag', data.progression]"
+      >
+        Ga verder
+      </a>
+    </ng-container>
+
+    <ng-container >
+      <a
+        class="btn"
+        (click)="setLocalStorageItem()"
+        [routerLink]="['/', data.params.subject, data.params.assignment, 'vraag', '1']"
+      >
+        Maak de opdracht
+      </a>
+    </ng-container>
+</ng-container>

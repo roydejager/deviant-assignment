@@ -1,0 +1,69 @@
+.qst-btn {
+  background-color: #00243822;
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: background-color 100ms ease-out;
+  padding: 20px 0;
+
+  &:hover {
+    background-color: #002438;
+  }
+}
+.previous {
+  border-radius: 0 10px 10px 0;
+  left: 0;
+}
+
+.next {
+  border-radius: 10px 0 0 10px;
+  right: 0;
+}
+
+.radio-buttons-container {
+  & .clr-radio-wrapper {
+    margin-bottom: 10px;
+
+    & .clr-control-label {
+      font-size: 18px;
+    }
+  }
+}
+.question {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.progress-bar-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #C5E5EF;
+  text-align: center;
+  padding: 15px 0;
+
+  & h3 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+}
+
+.current-question {
+  color: #e96d08;
+  font-weight: bold;
+}
+
+textarea {
+  max-width: 400px;
+  height: 200px;
+  width: 100%;
+}
+
+
+.btn {
+  margin-right: 0;
+  margin-top: 10px;
+}

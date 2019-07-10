@@ -7,17 +7,14 @@ import { HttpClientModule } from '@angular/common/http';
 // Modules
 import { AppRoutingModule } from './app-routing.module';
 import { ClarityModule } from '@clr/angular';
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { SharedModule } from './modules/shared/shared.module';
 
 // Store
 import { reducers, metaReducers } from './store/reducers';
 import { effects } from './store/effects';
-
-// Services
-import { InMememoryDataService } from '../app/services/in-memory-data.service';
-import { ApiService } from '../app/services/api.service';
 
 // Components
 import { AppComponent } from './app.component';
@@ -26,7 +23,7 @@ import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,13 +31,12 @@ import { environment } from '../environments/environment';
     BrowserAnimationsModule,
     ClarityModule,
     HttpClientModule,
-    HttpClientInMemoryWebApiModule.forRoot(InMememoryDataService),
+    SharedModule.forRoot(),
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(effects),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
   ],
   providers: [
-    ApiService
   ],
   bootstrap: [AppComponent]
 })
