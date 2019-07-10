@@ -2,8 +2,12 @@
   background-color: #0065AB;
 }
 
-h3 {
+.assignment-name {
+  margin-top: 0;
   color: #fff;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .wrapper {
