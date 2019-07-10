@@ -2,39 +2,45 @@
     currentQuestion: currentQuestion$ | async,
     questionNumber: questionNumber$ | async,
     assignment: assignment$ | async,
-    progression: progression$ | async
-  } as subscriptions"
+    progression: progression$ | async,
+    params: route.params | async
+  } as data"
 >
-  <h4>
-    Vraag {{ subscriptions.questionNumber }} / {{ subscriptions.assignment.payload.questions?.length }}
+  <h4 class="current-question">
+    Vraag {{ data.questionNumber }} / {{ data.assignment.payload.questions?.length }}
   </h4>
-  <h2>{{ subscriptions.currentQuestion?.question }}</h2>
-
+  <h2 class="question" >{{ data.currentQuestion?.question }}</h2>
   <div class="anwser-options-container">
-    <ng-container [ngSwitch]="subscriptions.currentQuestion?.questionType">
-      <div *ngSwitchCase="'multiple_choice'">
-        <app-radio-buttons></app-radio-buttons>
+    <ng-container [ngSwitch]="data.currentQuestion?.questionType">
+      <div class="radio-buttons-container" *ngSwitchCase="'multiple_choice'">
+        <div class="clr-radio-wrapper" *ngFor="let option of data.currentQuestion.answers; let i = index">
+          <input (change)="test($event)" [(ngModel)]="data.currentQuestion.userAnswer" type="radio" id="vertical-radio{{i}}" name="radio-full" [value]="option.answer" class="clr-radio">
+          <label for="vertical-radio{{i}}" class="clr-control-label">{{ option.answer }}</label>
+        </div>
       </div>
       <div *ngSwitchCase="'open_question'">
-        <app-textarea
-          [value]="'test antwoord'"
-          (valueChanged)="valueChange($event)"
-          [placeholder]="'Vul hier je antwoord in'"
+          <textarea
+          (input)="onChange($event.target.value)"
+          [(ngModel)]="data.currentQuestion.userAnswer"
+          placeholder="Vul hier je vraag in"
         >
-        </app-textarea>
+        </textarea>
       </div>
     </ng-container>
-
     <ng-container
-      *ngIf="subscriptions.questionNumber === (subscriptions.assignment.payload.questions?.length);"
+      *ngIf="data.questionNumber === (data.assignment.payload.questions?.length);"
     >
-      <a class="btn" (click)="onSubmit(subscriptions.questionNumber)" routerLink="/antwoorden">
+      <a class="btn" (click)="onSubmit(data.questionNumber)" routerLink="/antwoorden">
         Inleveren
       </a>
     </ng-container>
 
-    <ng-container *ngIf="subscriptions.questionNumber < (subscriptions.assignment.payload.questions?.length)">
-        <a  class="btn" (click)="onSubmit(subscriptions.questionNumber)" [routerLink]="['/vraag', subscriptions.questionNumber + 1]">
+    <ng-container *ngIf="data.questionNumber < (data.assignment.payload.questions?.length)">
+        <a
+          class="btn"
+          (click)="onSubmit(data.questionNumber)"
+          [routerLink]="['/', data.params.subject, data.params.assignment, 'vraag', data.questionNumber + 1]"
+        >
           Volgende vraag
         </a>
     </ng-container>
@@ -42,8 +48,8 @@
   </div>
 
   <a
-    *ngIf="subscriptions.questionNumber !== 1"
-    [routerLink]="['/vraag', subscriptions.questionNumber - 1]"
+    *ngIf="data.questionNumber !== 1"
+    [routerLink]="['/', data.params.subject, data.params.assignment, 'vraag', data.questionNumber - 1]"
   >
     <div class="qst-btn previous">
       <clr-icon shape="angle left" size="70" class="is-inverse"></clr-icon>
@@ -51,8 +57,8 @@
   </a>
 
   <a
-    *ngIf="subscriptions.questionNumber <= subscriptions.progression"
-    [routerLink]="['/vraag', subscriptions.questionNumber + 1]"
+    *ngIf="data.questionNumber < data.progression || data.questionNumber < data.assignment.payload.questions.length"
+    [routerLink]="['/', data.params.subject, data.params.assignment, 'vraag', data.questionNumber + 1]"
   >
     <div class="qst-btn next">
       <clr-icon shape="angle right" size="70" class="is-inverse"></clr-icon>
@@ -62,7 +68,7 @@
   <div class="progress-bar-container">
     <h3>Progressie</h3>
     <app-progress-bar
-      [progression]="subscriptions.progression | totalPercentage:subscriptions.assignment.payload.questions?.length"
+      [progression]="data.progression | totalPercentage:data.assignment.payload.questions?.length"
     >
     </app-progress-bar>
   </div>

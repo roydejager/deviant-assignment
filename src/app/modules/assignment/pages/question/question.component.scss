@@ -21,8 +21,18 @@
   right: 0;
 }
 
-.anwser-options-container {
-  text-align: center;
+.radio-buttons-container {
+  & .clr-radio-wrapper {
+    margin-bottom: 10px;
+
+    & .clr-control-label {
+      font-size: 18px;
+    }
+  }
+}
+.question {
+  margin-top: 0;
+  margin-bottom: 10px;
 }
 
 .progress-bar-container {
@@ -37,7 +47,13 @@
   & h3 {
     margin-top: 0;
     margin-bottom: 5px;
+    font-weight: bold;
   }
+}
+
+.current-question {
+  color: #e96d08;
+  font-weight: bold;
 }
 
 textarea {
@@ -49,4 +65,5 @@ textarea {
 
 .btn {
   margin-right: 0;
+  margin-top: 10px;
 }

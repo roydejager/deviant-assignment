@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+
+interface Options {
+  label: string;
+  value: any;
+}
 
 @Component({
   selector: 'app-radio-buttons',
@@ -6,6 +11,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./radio-buttons.component.css']
 })
 export class RadioButtonsComponent implements OnInit {
+  @Input() options: Options;
 
   constructor() { }
 

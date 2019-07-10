@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { Placeholder } from '@angular/compiler/src/i18n/i18n_ast';
 
 @Component({
@@ -6,7 +6,7 @@ import { Placeholder } from '@angular/compiler/src/i18n/i18n_ast';
   templateUrl: './textarea.component.html',
   styleUrls: ['./textarea.component.css']
 })
-export class TextareaComponent implements OnInit {
+export class TextareaComponent implements OnInit, OnChanges {
   @Input() placeholder: string;
   @Input() value: string;
 
@@ -16,8 +16,10 @@ export class TextareaComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  ngOnChanges(changes) {
+  }
   onChange($event: string) {
+    console.log($event)
     this.valueChanged.emit($event);
   }
 }

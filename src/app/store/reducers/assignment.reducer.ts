@@ -12,6 +12,14 @@ export const initialState = {
   payload: {
     name: '',
     introText: '',
+    questions: [
+      {
+        questionId: 0,
+        question: '',
+        questionType: '',
+        userAnswer: null
+      }
+    ]
   }
 };
 
@@ -28,6 +36,10 @@ export function reducer(state = initialState, action: ActionPayload): State {
 
     case ActionTypes.ASSIGNMENT_FETCH_CANCEL:
       return { ...state, loading: false, error: false };
+
+    case ActionTypes.ASSINGMENT_SET_USER_ANSWER:
+      return { ...state, payload: { ...state.payload, questions: action.payload }};
+
     default:
       return initialState;
   }
