@@ -6,6 +6,16 @@ import { combineLatest, Observable, of, Subject, BehaviorSubject } from 'rxjs';
 import { Question } from '../../../../models/question';
 import { AssignmentSetUserAnswer } from 'src/app/store/actions/assignment.actions';
 
+interface LocalStorageSaved {
+  assignment: number;
+  answers: [
+    {
+      id: number;
+      answer: string;
+    }
+  ];
+}
+
 @Component({
   selector: 'app-question',
   templateUrl: './question.component.html',
@@ -18,6 +28,8 @@ export class QuestionComponent implements OnInit {
   public progression$: BehaviorSubject<number> = new BehaviorSubject(0);
   public params$: Observable<object>;
   public userAnswer: string;
+  params;
+  currentQuestion;
 
   constructor(
     public route: ActivatedRoute,
@@ -30,7 +42,7 @@ export class QuestionComponent implements OnInit {
   ngOnInit() {
     const localProgress = localStorage.getItem('progression');
     if (!localProgress) {
-      this.router.navigate(['/maatscappijleer/1/introductie']);
+      this.router.navigate(['/maatschappijleer/1/introductie']);
     }
 
     this.progression$.next(parseInt(localProgress, 10));
@@ -43,21 +55,59 @@ export class QuestionComponent implements OnInit {
       .subscribe(([params, assignment]: any) => {
         this.questionNumber$ = of(parseInt(params.questionNumber, 10));
         this.params$ = params;
+        this.params = params;
         if (params.questionNumber >= 0 && assignment.payload.introText) {
+          this.currentQuestion = assignment.payload.questions[params.questionNumber - 1];
           this.currentQuestion$ = of(assignment.payload.questions[params.questionNumber - 1]);
         }
       });
 
     combineLatest([this.assignment$, this.questionNumber$]).pipe(take(1)).subscribe(([assignment, questionNumber]: any) => {
-      console.log(assignment, questionNumber)
       if (questionNumber > assignment.payload.questions.length || questionNumber <= 0) {
-        this.router.navigate(['/maatscappijleer/1/introductie']);
+        this.router.navigate(['/maatschappijleer/1/introductie']);
       }
     });
   }
 
   onSubmit(value: number) {
     const currentProgression = localStorage.getItem('progression');
+    const assignments = JSON.parse(localStorage.getItem(this.params.subject));
+    const { questionId, userAnswer } = this.currentQuestion;
+
+    if (assignments) {
+      const currentAssignment = assignments.find((assignment) => assignment.assignment === parseInt(this.params.assignment, 10));
+      const currentAssignmentIndex = assignments.findIndex((assignment) => assignment.assignment === parseInt(this.params.assignment, 10));
+      const currentAnswerIndex = currentAssignment.answers.findIndex((answer) => answer.questionId === this.currentQuestion.questionId);
+
+
+      if (currentAnswerIndex === -1) {
+        currentAssignment.answers = [...currentAssignment.answers, { questionId, userAnswer }];
+        assignments[currentAssignmentIndex] = currentAssignment;
+
+        localStorage.setItem(this.params.subject, JSON.stringify(assignments));
+      } else {
+        currentAssignment.answers[currentAnswerIndex] = { questionId, userAnswer };
+        assignments[currentAssignmentIndex] = currentAssignment;
+
+        localStorage.setItem(this.params.subject, JSON.stringify(assignments));
+      }
+    } else {
+      localStorage.setItem(this.params.subject, JSON.stringify(
+        [
+          {
+            assignment: parseInt(this.params.assignment, 10),
+            answers: [
+              {
+                questionId,
+                userAnswer
+              }
+            ]
+          }
+        ]
+      ));
+    }
+
+
     combineLatest([this.currentQuestion$, this.assignment$]).pipe(
       take(1)
     ).subscribe(([currentQuestion, assignment]: any) => {
@@ -91,10 +141,8 @@ export class QuestionComponent implements OnInit {
   }
 
   onChange($event) {
-    console.log($event, 'event')
   }
 
   test($event) {
-    console.log($event.target.value)
   }
 }
