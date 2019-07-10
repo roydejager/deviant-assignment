@@ -1,4 +1,6 @@
+// Angular
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 // Modules
 import { CommonModule } from '@angular/common';
@@ -24,7 +26,8 @@ import { ProgressBarComponent } from './components/progress-bar/progress-bar.com
     AssignmentRoutingModule,
     CommonModule,
     SharedModule,
-    ClarityModule
+    ClarityModule,
+    FormsModule
   ]
 })
 export class AssignmentModule { }
