@@ -3,7 +3,7 @@
     questionNumber: questionNumber$ | async,
     assignment: assignment$ | async,
     progression: progression$ | async,
-    params: route.params | async
+    params: params$ | async
   } as data"
 >
   <h4 class="current-question">
@@ -14,14 +14,13 @@
     <ng-container [ngSwitch]="data.currentQuestion?.questionType">
       <div class="radio-buttons-container" *ngSwitchCase="'multiple_choice'">
         <div class="clr-radio-wrapper" *ngFor="let option of data.currentQuestion.answers; let i = index">
-          <input (change)="test($event)" [(ngModel)]="data.currentQuestion.userAnswer" type="radio" id="vertical-radio{{i}}" name="radio-full" [value]="option.answer" class="clr-radio">
+          <input [(ngModel)]="currentQuestion.userAnswer" type="radio" id="vertical-radio{{i}}" name="radio-full" [value]="option.answer" class="clr-radio">
           <label for="vertical-radio{{i}}" class="clr-control-label">{{ option.answer }}</label>
         </div>
       </div>
       <div *ngSwitchCase="'open_question'">
           <textarea
-          (input)="onChange($event.target.value)"
-          [(ngModel)]="data.currentQuestion.userAnswer"
+          [(ngModel)]="currentQuestion.userAnswer"
           placeholder="Vul hier je vraag in"
         >
         </textarea>
@@ -39,7 +38,7 @@
         <a
           class="btn"
           (click)="onSubmit(data.questionNumber)"
-          [routerLink]="['/', data.params.subject, data.params.assignment, 'vraag', data.questionNumber + 1]"
+          [routerLink]="['/', data.params.subject, data.params.assignmentType, data.params.assignmentId, 'vraag', data.questionNumber + 1]"
         >
           Volgende vraag
         </a>
@@ -49,7 +48,7 @@
 
   <a
     *ngIf="data.questionNumber !== 1"
-    [routerLink]="['/', data.params.subject, data.params.assignment, 'vraag', data.questionNumber - 1]"
+    [routerLink]="['/', data.params.subject, data.params.assignmentType, data.params.assignmentId, 'vraag', data.questionNumber - 1]"
   >
     <div class="qst-btn previous">
       <clr-icon shape="angle left" size="70" class="is-inverse"></clr-icon>
@@ -58,7 +57,7 @@
 
   <a
     *ngIf="data.questionNumber < data.progression || data.questionNumber < data.assignment.payload.questions.length"
-    [routerLink]="['/', data.params.subject, data.params.assignment, 'vraag', data.questionNumber + 1]"
+    [routerLink]="['/', data.params.subject, data.params.assignmentType, data.params.assignmentId, 'vraag', data.questionNumber + 1]"
   >
     <div class="qst-btn next">
       <clr-icon shape="angle right" size="70" class="is-inverse"></clr-icon>

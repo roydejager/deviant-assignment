@@ -15,6 +15,5 @@ export class AppComponent implements OnInit {
     this.route.params.subscribe((f) => {
 
     });
-    this.api.getAssignment().subscribe((assignment) => console.log(assignment));
   }
 }

@@ -6,8 +6,9 @@ import { InMemoryDbService } from 'angular-in-memory-web-api';
 })
 export class InMememoryDataService implements InMemoryDbService {
   createDb() {
-    const assignment = {
+    const assignment = [{
       name: 'Opdracht 1',
+      id: 1,
       introText: 'Vragen over ons koningshuis',
       questions: [
         {
@@ -75,7 +76,7 @@ export class InMememoryDataService implements InMemoryDbService {
           userAnswer: null
         }
       ]
-    };
+    }];
     return {assignment};
   }
 }

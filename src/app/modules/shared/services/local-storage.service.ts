@@ -20,12 +20,12 @@ export class LocalStorageService {
     return false;
   }
 
-  setLocalStorageItem(key: string, value: string) {
-    localStorage.setItem(key, value);
+  setItem(key: string, value: any) {
+    localStorage.setItem(key, JSON.stringify(value));
   }
 
-  getLocalStorageItem(key: string) {
-    return localStorage.getItem(key);
+  getItem(key: string) {
+    return JSON.parse(localStorage.getItem(key));
   }
 
 }

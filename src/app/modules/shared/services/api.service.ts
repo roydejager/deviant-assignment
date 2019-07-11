@@ -11,7 +11,7 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  getAssignment(): Observable<Assignment> {
-    return this.http.get<Assignment>(`${environment}/assignment`);
+  getAssignment(id: number): Observable<Assignment> {
+    return this.http.get<Assignment>(`${environment}/assignment/${id}`);
   }
 }

@@ -10,17 +10,17 @@ import { AssignmentComponent } from './assignment.component';
 const routes: Routes = [
   {
     path: '',
-    component: AssignmentComponent,
     children: [
       {
-        path: ':subject/:assignment',
+        path: ':subject/:assignmentType/:assignmentId',
+        component: AssignmentComponent,
         children: [
           { path: 'introductie', component: IntroductionComponent },
           { path: 'vraag/:questionNumber', component: QuestionComponent },
           { path: 'antwoorden', component: IntroductionComponent }
         ]
       },
-      { path: '', redirectTo: 'maatschappijleer/1/introductie', pathMatch: 'full' },
+      { path: '', redirectTo: 'maatschappijleer/opdracht/1/introductie', pathMatch: 'full' },
     ]
   }
 ];

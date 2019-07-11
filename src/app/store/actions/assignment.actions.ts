@@ -12,6 +12,7 @@ export enum ActionTypes {
 export class AssignmentFetch implements Action {
   readonly type = ActionTypes.ASSIGNMENT_FETCH;
 
+  constructor(public payload) { }
 }
 
 export class AssignmentFetchSuccess implements Action {

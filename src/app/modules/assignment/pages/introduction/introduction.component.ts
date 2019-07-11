@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { Observable, BehaviorSubject, of} from 'rxjs';
+import { LocalStorageService } from 'src/app/modules/shared/services/local-storage.service';
+import { switchMap, take } from 'rxjs/operators';
 
 
 @Component({
@@ -17,22 +19,27 @@ export class IntroductionComponent implements OnInit {
 
   constructor(
     private store: Store<{ assignment }>,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    private localstorage: LocalStorageService
   ) {
     this.assignment$ = this.store.select((state) => state.assignment);
   }
 
   ngOnInit() {
+    this.route.parent.params.pipe(
+      take(1)
+    ).subscribe((params) => {
+      const currentSubject = this.localstorage.getItem(params.subject);
+      if (currentSubject) {
+        const currentAssignment = currentSubject.find((assignment) => assignment.assignment === parseInt(params.assignmentId, 10));
 
-    const progression = localStorage.getItem('progression');
+        if (currentAssignment) {
+          this.progression$.next(currentAssignment.answers.length);
+        }
+      }
 
-    if (progression) {
-      this.progression$.next(parseInt(progression, 10));
-    }
-  }
+    });
 
-  setLocalStorageItem() {
-    localStorage.setItem('progression', '0');
   }
 
 }
