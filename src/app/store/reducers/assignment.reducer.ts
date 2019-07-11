@@ -3,20 +3,23 @@ import { ActionTypes } from '../actions/assignment.actions';
 import { Assignment, ActionPayload } from '../../models';
 
 export interface State {
-
+  loading: boolean;
+  error: boolean;
+  payload: Assignment;
 }
 
-export const initialState = {
+export const initialState: State = {
   loading: false,
   error: false,
   payload: {
     name: '',
+    id: 0,
     introText: '',
     questions: [
       {
         questionId: 0,
         question: '',
-        questionType: '',
+        questionType: 'open_question',
         userAnswer: null
       }
     ]

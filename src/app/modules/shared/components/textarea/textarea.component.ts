@@ -19,7 +19,6 @@ export class TextareaComponent implements OnInit, OnChanges {
   ngOnChanges(changes) {
   }
   onChange($event: string) {
-    console.log($event)
     this.valueChanged.emit($event);
   }
 }

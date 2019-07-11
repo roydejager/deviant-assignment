@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { AssignmentFetch } from 'src/app/store/actions/assignment.actions';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { Subscription, Observable } from 'rxjs';
+import { ApiService } from '../shared/services/api.service';
 
 @Component({
   selector: 'app-assignment',
@@ -12,17 +13,21 @@ import { Subscription, Observable } from 'rxjs';
 export class AssignmentComponent implements OnInit, OnDestroy {
   public assignment$: Observable<any>;
   public routerSubscription: Subscription;
-
+  params;
   constructor(
     private store: Store<{ assignment }>,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private api: ApiService
   ) {
     this.assignment$ = this.store.select(state => state.assignment);
   }
 
   ngOnInit() {
-    this.store.dispatch(new AssignmentFetch());
+    this.route.params.subscribe((params) => {
+      this.params = params;
+    });
+    this.store.dispatch(new AssignmentFetch({ id: this.params.assignmentId }));
   }
 
   ngOnDestroy() {

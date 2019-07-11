@@ -18,10 +18,25 @@ export class AssignmentEffects {
   fetchAssignment$: Observable<Action> = this.actions$
     .pipe(
       ofType<AssignmentFetch>(ActionTypes.ASSIGNMENT_FETCH),
-      switchMap(() => {
-        return this.http.getAssignment();
+      switchMap((action) => {
+        return  this.http.getAssignment(action.payload.id);
       }),
-      map((assignment: Assignment) => new AssignmentFetchSuccess(assignment)),
+      map((assignment: Assignment) => {
+        const currentSubject = JSON.parse(localStorage.getItem('maatschappijleer'));
+
+        if (currentSubject) {
+          const currentAssignment = currentSubject.find((curr) => curr.assignment === assignment.id);
+
+          assignment.questions.forEach((question) => {
+            const answer = currentAssignment.answers.find((userAnswer) => userAnswer.questionId === question.questionId);
+            if (answer) {
+              question.userAnswer = answer.userAnswer;
+            }
+          });
+        }
+
+        return new AssignmentFetchSuccess(assignment);
+      }),
       catchError((error) => of(new AssignmentFetchError(error))),
       takeUntil(
         this.actions$.pipe(
