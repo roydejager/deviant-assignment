@@ -45,12 +45,20 @@
             {{currentQuestion.userAnswer}}
           </div>
         </div>
-          <a
-            class="btn"
-            [routerLink]="['/', params.subject, params.assignmentType, params.assignmentId, 'vraag', params.questionNumber + 1]"
-          >
-            Volgende vraag
-          </a>
+        <a
+          class="btn"
+          [routerLink]="['/', params.subject, params.assignmentType, params.assignmentId, 'vraag', params.questionNumber + 1]"
+          *ngIf="params.questionNumber < data.assignment.payload.questions.length"
+        >
+          Volgende vraag
+        </a>
+        <a
+          class="btn"
+          [routerLink]="['/', params.subject, params.assignmentType, params.assignmentId, 'antwoorden']"
+          *ngIf="params.questionNumber === data.assignment.payload.questions.length"
+        >
+          Bekijk antwoorden
+        </a>
       </div>
       <div class="" *ngSwitchCase="'multiple_choice'">
         <div class="radio-buttons-container" *ngSwitchCase="'multiple_choice'">
@@ -64,8 +72,16 @@
         <a
           class="btn"
           [routerLink]="['/', params.subject, params.assignmentType, params.assignmentId, 'vraag', params.questionNumber + 1]"
+          *ngIf="params.questionNumber < data.assignment.payload.questions.length"
         >
           Volgende vraag
+        </a>
+        <a
+          class="btn"
+          [routerLink]="['/', params.subject, params.assignmentType, params.assignmentId, 'antwoorden']"
+          *ngIf="params.questionNumber === data.assignment.payload.questions.length"
+        >
+          Bekijk antwoorden
         </a>
       </div>
     </ng-container>

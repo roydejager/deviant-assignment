@@ -4,9 +4,15 @@
     <h4>
       {{ question.question }}
     </h4>
-    <p>
-      {{ question.userAnswer }}
-    </p>
+    <div [ngSwitch]="question.questionType">
+      <div
+        *ngSwitchCase="'multiple_choice'"
+        [ngClass]="validateAnswers(question.answers, question.userAnswer) ? 'correct' : 'incorrect'"
+      >
+        {{ question.userAnswer }}
+      </div>
+      <div *ngSwitchDefault class="answer-container">{{ question.userAnswer }}</div>
+    </div>
   </div>
 
   <a

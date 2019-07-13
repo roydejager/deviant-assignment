@@ -28,7 +28,7 @@ export const initialState: AssignmentReducerState = {
   }
 };
 
-export function reducer(state = initialState, action: ActionPayload): State {
+export function reducer(state = initialState, action: ActionPayload): AssignmentReducerState {
   switch (action.type) {
     case ActionTypes.ASSIGNMENT_FETCH:
       return { ...state, loading: true, error: false };

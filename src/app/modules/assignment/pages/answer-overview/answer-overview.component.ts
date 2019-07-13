@@ -29,7 +29,7 @@ interface StoredAssignment {
 @Component({
   selector: 'app-answer-overview',
   templateUrl: './answer-overview.component.html',
-  styleUrls: ['./answer-overview.component.css']
+  styleUrls: ['./answer-overview.component.scss']
 })
 export class AnswerOverviewComponent implements OnInit, OnDestroy {
   public assignment$: Observable<AssignmentReducerState>;
@@ -80,6 +80,10 @@ export class AnswerOverviewComponent implements OnInit, OnDestroy {
     } else {
       localStorage.setItem(this.params.subject, filteredAssignments);
     }
+  }
+
+  validateAnswers(answers, userAnswer) {
+    return answers.find((answer) => answer.answer === userAnswer).isCorrect;
   }
 
   ngOnDestroy() {
