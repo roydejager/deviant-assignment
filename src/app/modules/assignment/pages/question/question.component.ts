@@ -75,7 +75,7 @@ export class QuestionComponent implements OnInit {
       }
     });
 
-    // this.setProgression();
+    this.setProgression();
   }
 
   onChange(value: string, submit: boolean) {
@@ -89,8 +89,11 @@ export class QuestionComponent implements OnInit {
     } else {
       assignments = this.setNewLocalStorage(value);
     }
-
     this.localstorage.setCurrentSubject(this.params.subject, assignments);
+
+    if (submit) {
+      this.setProgression();
+    }
   }
 
   setLocalStorageAnswer(value: string, submitted) {
@@ -128,14 +131,12 @@ export class QuestionComponent implements OnInit {
 
     if (assignment) {
       const submittedAnswers = assignment.answers.filter(answer => answer.submitted);
-      this.progression$.next(submittedAnswers);
+      this.progression$.next(submittedAnswers.length);
     }
   }
 
   validateAnswer(userAnswer: string) {
-    console.log(this.currentQuestion, userAnswer)
     const currentAnswer = this.currentQuestion.answers.find((answer) => answer.answer === userAnswer);
-    console.log(currentAnswer)
     return currentAnswer.isCorrect;
   }
 }

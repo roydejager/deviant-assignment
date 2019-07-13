@@ -32,11 +32,12 @@ export class AssignmentStorageService {
   }
 
   getCurrentAssignment(id: number) {
-    return this.currentAssignment.find((assignment: AssignmentStorage) => assignment.assignmentId === id);
+    if (this.currentAssignment) {
+      return this.currentAssignment.find((assignment: AssignmentStorage) => assignment.assignmentId === id);
+    }
   }
 
   public getCurrentAssignmentAnswers(assignmentId: number) {
-    console.log(this.getCurrentAssignment(assignmentId), assignmentId);
     return this.getCurrentAssignment(assignmentId).answers;
   }
 

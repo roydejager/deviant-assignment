@@ -2,14 +2,14 @@ import { ActionTypes } from '../actions/assignment.actions';
 
 import { Assignment, ActionPayload } from '../../models';
 
-export interface State {
+export interface AssignmentReducerState {
   loading: boolean;
   error: boolean;
   errorMessage: string;
   payload: Assignment;
 }
 
-export const initialState: State = {
+export const initialState: AssignmentReducerState = {
   loading: false,
   error: false,
   errorMessage: '',
