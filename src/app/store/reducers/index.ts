@@ -9,7 +9,7 @@ import { environment } from '../../../environments/environment';
 import * as Assignment from './assignment.reducer';
 
 export interface State {
-  assignment: Assignment.State;
+  assignment: Assignment.AssignmentReducerState;
 }
 
 export const reducers: ActionReducerMap<State> = {

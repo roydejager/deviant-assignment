@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { AssignmentReducerState } from './../../../../store/reducers/assignment.reducer';
-import { State } from './../../../../store/reducers/index';
+import { State } from './../../../../store/reducers';
 import { take } from 'rxjs/operators';
 
 interface Params {
