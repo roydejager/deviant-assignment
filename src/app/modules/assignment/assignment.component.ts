@@ -1,8 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+
 import { Store } from '@ngrx/store';
-import { AssignmentFetch } from 'src/app/store/actions/assignment.actions';
-import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
+
 import { Subscription, Observable } from 'rxjs';
+
+import { AssignmentFetch } from '../../store/actions/assignment.actions';
+
 import { ApiService } from '../shared/services/api.service';
 
 @Component({

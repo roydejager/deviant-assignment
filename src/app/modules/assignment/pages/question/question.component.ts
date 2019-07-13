@@ -1,11 +1,16 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Assignment } from './../../../../models/assignment';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+
 import { Store } from '@ngrx/store';
-import { take } from 'rxjs/operators';
-import { combineLatest, Observable, of, Subject, BehaviorSubject } from 'rxjs';
+
+import { combineLatest, BehaviorSubject } from 'rxjs';
+
+import { AssignmentStorageService } from './../../services/assignment-storage.service';
+
 import { Question } from '../../../../models/question';
-import { AssignmentSetUserAnswer } from 'src/app/store/actions/assignment.actions';
-import { LocalStorageService } from 'src/app/modules/shared/services/local-storage.service';
+import { State } from '../../../../store/reducers';
+
 interface LocalStorageSaved {
   assignment: number;
   answers: [

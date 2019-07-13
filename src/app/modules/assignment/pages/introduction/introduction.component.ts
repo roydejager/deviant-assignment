@@ -3,9 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 
-import { Observable, BehaviorSubject, of} from 'rxjs';
-import { LocalStorageService } from 'src/app/modules/shared/services/local-storage.service';
-import { switchMap, take } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
+import { take } from 'rxjs/operators';
+
+import { LocalStorageService } from '../../../../modules/shared/services/local-storage.service';
 
 
 @Component({
