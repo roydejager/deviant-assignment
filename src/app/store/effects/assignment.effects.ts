@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
+
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, of } from 'rxjs';
 import { Action } from '@ngrx/store';
-import { ApiService } from '../../modules/shared/services/api.service';
-import { ActionTypes, AssignmentFetchSuccess, AssignmentFetch, AssignmentFetchError } from '../actions/assignment.actions';
+
+import { Observable, of } from 'rxjs';
 import { switchMap, map, catchError, takeUntil } from 'rxjs/operators';
-import { Assignment } from 'src/app/models';
+
+import { Assignment } from '../../../app/models';
+
+import { ApiService } from '../../modules/shared/services/api.service';
+
+import { ActionTypes, AssignmentFetchSuccess, AssignmentFetch, AssignmentFetchError } from '../actions/assignment.actions';
 
 @Injectable()
 export class AssignmentEffects {
@@ -25,7 +30,7 @@ export class AssignmentEffects {
         const currentSubject = JSON.parse(localStorage.getItem('maatschappijleer'));
 
         if (currentSubject) {
-          const currentAssignment = currentSubject.find((curr) => curr.assignment === assignment.id);
+          const currentAssignment = currentSubject.find((curr) => curr.assignmentId === assignment.id);
 
           assignment.questions.forEach((question) => {
             const answer = currentAssignment.answers.find((userAnswer) => userAnswer.questionId === question.questionId);

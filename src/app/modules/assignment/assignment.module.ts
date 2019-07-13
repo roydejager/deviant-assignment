@@ -8,6 +8,9 @@ import { SharedModule } from '../shared/shared.module';
 import { AssignmentRoutingModule } from './assignment-routing.module';
 import { ClarityModule } from '@clr/angular';
 
+// Services
+import { AssignmentStorageService } from './services/assignment-storage.service';
+
 // Components
 import { AssignmentComponent } from './assignment.component';
 import { QuestionComponent } from './pages/question/question.component';
@@ -28,6 +31,9 @@ import { ProgressBarComponent } from './components/progress-bar/progress-bar.com
     SharedModule,
     ClarityModule,
     FormsModule
+  ],
+  providers: [
+    AssignmentStorageService
   ]
 })
 export class AssignmentModule { }

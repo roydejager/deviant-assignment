@@ -1,16 +1,18 @@
-import { Action } from '@ngrx/store';
 import { ActionTypes } from '../actions/assignment.actions';
+
 import { Assignment, ActionPayload } from '../../models';
 
 export interface State {
   loading: boolean;
   error: boolean;
+  errorMessage: string;
   payload: Assignment;
 }
 
 export const initialState: State = {
   loading: false,
   error: false,
+  errorMessage: '',
   payload: {
     name: '',
     id: 0,
@@ -35,7 +37,7 @@ export function reducer(state = initialState, action: ActionPayload): State {
       return { ...state, payload: action.payload, loading: false, error: false };
 
     case ActionTypes.ASSIGNMENT_FETCH_ERROR:
-      return { ...state, loading: false, error: true };
+      return { ...state, loading: false, error: true, errorMessage: action.payload.body.error };
 
     case ActionTypes.ASSIGNMENT_FETCH_CANCEL:
       return { ...state, loading: false, error: false };
