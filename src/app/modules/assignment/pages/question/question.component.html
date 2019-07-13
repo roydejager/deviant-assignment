@@ -71,7 +71,7 @@
     </ng-container>
   </div>
   <a
-    *ngIf="questionNumber !== 1"
+    *ngIf="params.questionNumber > 1"
     [routerLink]="['/', params.subject, params.assignmentType, params.assignmentId, 'vraag', params.questionNumber - 1]"
   >
     <div class="qst-btn previous">
@@ -80,7 +80,7 @@
   </a>
 
   <a
-    *ngIf="params.questionNumber < data.progression || params.questionNumber < data.assignment.payload.questions.length"
+    *ngIf="params.questionNumber <= data.progression && params.questionNumber < data.assignment.payload.questions.length"
     [routerLink]="['/', params.subject, params.assignmentType, params.assignmentId, 'vraag', params.questionNumber + 1]"
   >
     <div class="qst-btn next">
@@ -91,7 +91,7 @@
   <div class="progress-bar-container">
     <h3>Progressie</h3>
     <app-progress-bar
-      [progression]="data.progression | totalPercentage:data.assignment.payload.questions?.length"
+      [progression]="data.progression | totalPercentage: data.assignment.payload.questions?.length"
     >
     </app-progress-bar>
   </div>
