@@ -16,6 +16,7 @@ import { AssignmentComponent } from './assignment.component';
 import { QuestionComponent } from './pages/question/question.component';
 import { IntroductionComponent } from './pages/introduction/introduction.component';
 import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
+import { AnswerOverviewComponent } from './pages/answer-overview/answer-overview.component';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { ProgressBarComponent } from './components/progress-bar/progress-bar.com
     QuestionComponent,
     IntroductionComponent,
     ProgressBarComponent,
+    AnswerOverviewComponent,
   ],
   imports: [
     AssignmentRoutingModule,

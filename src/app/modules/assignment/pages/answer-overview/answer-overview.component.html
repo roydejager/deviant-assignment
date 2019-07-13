@@ -1,0 +1,20 @@
+<ng-container *ngIf="(assignment$ | async) as assignment">
+  <h2>Jouw antwoorden</h2>
+  <div *ngFor="let question of assignment.payload.questions">
+    <h4>
+      {{ question.question }}
+    </h4>
+    <p>
+      {{ question.userAnswer }}
+    </p>
+  </div>
+
+  <a
+    class="btn"
+    (click)="clearAssignment()"
+    [routerLink]="['/', params.subject, params.assignmentType, params.assignmentId, 'introductie' ]"
+  >
+    Lever de opdracht in
+  </a>
+
+</ng-container>
