@@ -30,7 +30,7 @@ export class AssignmentEffects {
         const currentSubject = JSON.parse(localStorage.getItem('maatschappijleer'));
 
         if (currentSubject) {
-          const currentAssignment = currentSubject.find((curr) => curr.assignment === assignment.id);
+          const currentAssignment = currentSubject.find((curr) => curr.assignmentId === assignment.id);
 
           assignment.questions.forEach((question) => {
             const answer = currentAssignment.answers.find((userAnswer) => userAnswer.questionId === question.questionId);

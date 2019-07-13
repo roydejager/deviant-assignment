@@ -1,54 +1,78 @@
 <ng-container *ngIf="{
-    currentQuestion: currentQuestion$ | async,
-    questionNumber: questionNumber$ | async,
     assignment: assignment$ | async,
-    progression: progression$ | async,
-    params: params$ | async
+    progression: progression$ | async
   } as data"
 >
   <h4 class="current-question">
-    Vraag {{ data.questionNumber }} / {{ data.assignment.payload.questions?.length }}
+    Vraag {{ params.questionNumber }} / {{ data.assignment.payload.questions?.length }}
   </h4>
-  <h2 class="question" >{{ data.currentQuestion?.question }}</h2>
-  <div class="anwser-options-container">
-    <ng-container [ngSwitch]="data.currentQuestion?.questionType">
+  <h2 class="question" >{{ currentQuestion?.question }}</h2>
+  <div *ngIf="!turnedIn" class="anwser-options-container">
+    <ng-container [ngSwitch]="currentQuestion?.questionType">
       <div class="radio-buttons-container" *ngSwitchCase="'multiple_choice'">
-        <div class="clr-radio-wrapper" *ngFor="let option of data.currentQuestion.answers; let i = index">
-          <input [(ngModel)]="currentQuestion.userAnswer" type="radio" id="vertical-radio{{i}}" name="radio-full" [value]="option.answer" class="clr-radio">
+        <div class="clr-radio-wrapper" *ngFor="let option of currentQuestion.answers; let i = index">
+          <input (change)="onChange(option.answer, false)" [(ngModel)]="currentQuestion.userAnswer" type="radio" id="vertical-radio{{i}}" name="radio-full" [value]="option.answer" class="clr-radio">
           <label for="vertical-radio{{i}}" class="clr-control-label">{{ option.answer }}</label>
         </div>
+        <a class="btn" (click)="onChange(currentQuestion.userAnswer, true)" >
+          Inleveren
+        </a>
       </div>
       <div *ngSwitchCase="'open_question'">
-          <textarea
+        <textarea
+          (input)="onChange($event.target.value, false)"
           [(ngModel)]="currentQuestion.userAnswer"
           placeholder="Vul hier je vraag in"
         >
         </textarea>
+        <a class="btn" (click)="onChange(currentQuestion.userAnswer, true)">
+          Inleveren
+        </a>
       </div>
     </ng-container>
-    <ng-container
-      *ngIf="data.questionNumber === (data.assignment.payload.questions?.length);"
-    >
-      <a class="btn" (click)="onSubmit(data.questionNumber)" routerLink="/antwoorden">
-        Inleveren
-      </a>
-    </ng-container>
 
-    <ng-container *ngIf="data.questionNumber < (data.assignment.payload.questions?.length)">
-        <a
-          class="btn"
-          (click)="onSubmit(data.questionNumber)"
-          [routerLink]="['/', data.params.subject, data.params.assignmentType, data.params.assignmentId, 'vraag', data.questionNumber + 1]"
-        >
-          Volgende vraag
-        </a>
+    <ng-container *ngIf="params.questionNumber < (data.assignment.payload.questions?.length)">
     </ng-container>
 
   </div>
 
+  <div *ngIf="turnedIn">
+    <ng-container [ngSwitch]="currentQuestion?.questionType">
+      <div  *ngSwitchCase="'open_question'">
+        <div>
+          jouw antwoord:
+          <div class="answer-container">
+            {{currentQuestion.userAnswer}}
+          </div>
+        </div>
+          <a
+            class="btn"
+            [routerLink]="['/', params.subject, params.assignmentType, params.assignmentId, 'vraag', params.questionNumber + 1]"
+          >
+            Volgende vraag
+          </a>
+      </div>
+      <div class="" *ngSwitchCase="'multiple_choice'">
+        <div class="radio-buttons-container" *ngSwitchCase="'multiple_choice'">
+          jouw antwoord:
+          <div
+            [ngClass]="validateAnswer(currentQuestion.userAnswer) ? 'correct' : 'wrong'"
+          >
+            {{currentQuestion.userAnswer}}
+          </div>
+        </div>
+        <a
+          class="btn"
+          [routerLink]="['/', params.subject, params.assignmentType, params.assignmentId, 'vraag', params.questionNumber + 1]"
+        >
+          Volgende vraag
+        </a>
+      </div>
+    </ng-container>
+  </div>
   <a
-    *ngIf="data.questionNumber !== 1"
-    [routerLink]="['/', data.params.subject, data.params.assignmentType, data.params.assignmentId, 'vraag', data.questionNumber - 1]"
+    *ngIf="questionNumber !== 1"
+    [routerLink]="['/', params.subject, params.assignmentType, params.assignmentId, 'vraag', params.questionNumber - 1]"
   >
     <div class="qst-btn previous">
       <clr-icon shape="angle left" size="70" class="is-inverse"></clr-icon>
@@ -56,8 +80,8 @@
   </a>
 
   <a
-    *ngIf="data.questionNumber < data.progression || data.questionNumber < data.assignment.payload.questions.length"
-    [routerLink]="['/', data.params.subject, data.params.assignmentType, data.params.assignmentId, 'vraag', data.questionNumber + 1]"
+    *ngIf="params.questionNumber < data.progression || params.questionNumber < data.assignment.payload.questions.length"
+    [routerLink]="['/', params.subject, params.assignmentType, params.assignmentId, 'vraag', params.questionNumber + 1]"
   >
     <div class="qst-btn next">
       <clr-icon shape="angle right" size="70" class="is-inverse"></clr-icon>

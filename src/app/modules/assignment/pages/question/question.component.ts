@@ -21,6 +21,13 @@ interface LocalStorageSaved {
   ];
 }
 
+interface Params {
+  questionNumber: number;
+  subject: string;
+  assignmentType: string;
+  assignmentId: number;
+}
+
 @Component({
   selector: 'app-question',
   templateUrl: './question.component.html',
@@ -28,101 +35,107 @@ interface LocalStorageSaved {
 })
 export class QuestionComponent implements OnInit {
   private assignment$;
-  public questionNumber$: Observable<number>;
-  public currentQuestion$: Observable<Question>;
   public progression$: BehaviorSubject<number> = new BehaviorSubject(0);
-  public params$: Observable<object>;
-  public userAnswer: string;
-  params;
-  currentQuestion;
+  public currentQuestion: Question;
+  public params: Params;
+  public turnedIn: boolean;
 
   constructor(
     public route: ActivatedRoute,
     private router: Router,
     private store: Store<{ assignment }>,
-    private localstorage: LocalStorageService
+    private localstorage: AssignmentStorageService
   ) {
-    this.assignment$ = this.store.select((state) => state.assignment);
+    this.assignment$ = this.store.select((state: State) => state.assignment);
   }
 
   ngOnInit() {
     combineLatest([this.route.params, this.route.parent.params, this.assignment$])
       .subscribe(([params, parentParams, assignment]: any) => {
-        this.questionNumber$ = of(parseInt(params.questionNumber, 10));
-        this.params$ = of({ ...params, ...parentParams });
-        this.params = { ...params, ...parentParams };
+        const questionNumber = parseInt(params.questionNumber, 10);
+        const assignmentId = parseInt(parentParams.assignmentId, 10);
+
+        this.params = { ...params, ...parentParams, questionNumber, assignmentId };
+
         if (params.questionNumber >= 0 && assignment.payload.introText) {
           this.currentQuestion = assignment.payload.questions[params.questionNumber - 1];
-          this.currentQuestion$ = of(assignment.payload.questions[params.questionNumber - 1]);
         }
       });
 
-    const assignments = this.localstorage.getItem(this.params.subject);
-    if (assignments) {
-      const currentAssignment = assignments.find((assignment) => assignment.assignment === parseInt(this.params.assignmentId, 10));
-      this.setProgression(currentAssignment.answers.length);
-    }
-    // if (assignments) {
+    this.route.params.subscribe(() => {
+      const assignments = this.localstorage.getCurrentSubject(this.params.subject);
+      if (assignments) {
+        const currentAssignment = assignments.find((assignment) => assignment.assignmentId === this.params.assignmentId);
+        const currentQuestion = currentAssignment.answers.find((question) => question.questionId === this.params.questionNumber);
+        if (currentQuestion) {
+          this.turnedIn = currentQuestion.submitted;
+        } else {
+          this.turnedIn = false;
+        }
+      }
+    });
 
-    // }
-
-    // if ( !assignments) {
-    //   this.router.navigate(['/maatschappijleer/1/introductie']);
-    // }
-    // if (localProgress < ) {
-    //   this.router.navigate(['/vraag', parseInt(localProgress, 10) + 1]);
-    // }
-
-
-    // combineLatest([this.assignment$, this.questionNumber$]).pipe(take(1)).subscribe(([assignment, questionNumber]: any) => {
-    //   if (questionNumber > assignment.payload.questions.length || questionNumber <= 0) {
-    //     this.router.navigate(['/maatschappijleer/1/introductie']);
-    //   }
-    // });
+    // this.setProgression();
   }
 
-  onSubmit(value: number) {
-    const assignments = this.localstorage.getItem(this.params.subject);
-    const { questionId, userAnswer } = this.currentQuestion;
-    const parsedAssignmentId = parseInt(this.params.assignmentId, 10);
-
+  onChange(value: string, submit: boolean) {
+    let assignments = this.localstorage.getCurrentSubject(this.params.subject);
+    const parsedAssignmentId = this.params.assignmentId;
     if (assignments) {
-      const currentAssignment = assignments.find((assignment) => assignment.assignment === parsedAssignmentId);
-      const currentAssignmentIndex = assignments.findIndex((assignment) => assignment.assignment === parsedAssignmentId);
-      const currentAnswerIndex = currentAssignment.answers.findIndex((answer) => answer.questionId === this.currentQuestion.questionId);
+      const currentAssignmentIndex = this.localstorage.getCurrentAssignmentIndex(parsedAssignmentId);
 
-      if (currentAnswerIndex === -1) {
-        currentAssignment.answers = [...currentAssignment.answers, { questionId, userAnswer }];
-        assignments[currentAssignmentIndex] = currentAssignment;
-      } else {
-        currentAssignment.answers[currentAnswerIndex] = { questionId, userAnswer };
-      }
-
-      assignments[currentAssignmentIndex] = currentAssignment;
-      this.localstorage.setItem(this.params.subject, assignments);
-
-      this.setProgression(currentAssignment.answers.length);
+      assignments[currentAssignmentIndex] = this.setLocalStorageAnswer(value, submit);
 
     } else {
-      this.localstorage.setItem(this.params.subject, [{
-            assignment: parsedAssignmentId,
-            answers: [
-              {
-                questionId,
-                userAnswer
-              }
-            ]
-          }
-        ]
-      );
-      this.setProgression(1);
+      assignments = this.setNewLocalStorage(value);
     }
 
+    this.localstorage.setCurrentSubject(this.params.subject, assignments);
   }
 
-  setProgression(progress: number) {
-    this.progression$.next(progress);
+  setLocalStorageAnswer(value: string, submitted) {
+    const { questionId } = this.currentQuestion;
+
+    const currentAssignment = this.localstorage.getCurrentAssignment(this.params.assignmentId);
+    const currentAnswerIndex = this.localstorage.getCurrentAnswerIndex(this.params.assignmentId, questionId);
+
+    if (currentAnswerIndex === -1) {
+      currentAssignment.answers = [...currentAssignment.answers, { questionId, userAnswer: value, submitted }];
+    } else {
+      currentAssignment.answers[currentAnswerIndex] = { questionId, userAnswer: value, submitted };
+    }
+    this.turnedIn = submitted;
+    return currentAssignment;
   }
 
+  setNewLocalStorage(value) {
+    return [
+      {
+        assignmentId: this.params.assignmentId,
+        answers: [
+          {
+            questionId: this.currentQuestion.questionId,
+            userAnswer: value,
+            submitted: false
+          }
+        ]
+      }
+    ];
+  }
 
+  setProgression() {
+    const assignment = this.localstorage.getCurrentAssignment(this.params.assignmentId);
+
+    if (assignment) {
+      const submittedAnswers = assignment.answers.filter(answer => answer.submitted);
+      this.progression$.next(submittedAnswers);
+    }
+  }
+
+  validateAnswer(userAnswer: string) {
+    console.log(this.currentQuestion, userAnswer)
+    const currentAnswer = this.currentQuestion.answers.find((answer) => answer.answer === userAnswer);
+    console.log(currentAnswer)
+    return currentAnswer.isCorrect;
+  }
 }

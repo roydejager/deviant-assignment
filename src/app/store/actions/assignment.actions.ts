@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+
 import { Assignment } from '../../models';
 
 export enum ActionTypes {
