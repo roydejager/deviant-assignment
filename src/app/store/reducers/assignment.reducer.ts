@@ -1,3 +1,4 @@
+import { Question } from './../../models/question';
 import { ActionTypes } from '../actions/assignment.actions';
 
 import { Assignment, ActionPayload } from '../../models';
@@ -43,7 +44,23 @@ export function reducer(state = initialState, action: ActionPayload): Assignment
       return { ...state, loading: false, error: false };
 
     case ActionTypes.ASSINGMENT_SET_USER_ANSWER:
-      return { ...state, payload: { ...state.payload, questions: action.payload }};
+      console.log(action.payload)
+      const updateAnswer = state.payload.questions.map((question: Question, index) => {
+        if (question.questionId !== action.payload.questionId) {
+          return question;
+        }
+
+        return { ...question, userAnswer: action.payload.value };
+      });
+
+      return { ...state, payload: { ...state.payload, questions: updateAnswer }};
+
+    case ActionTypes.ASSIGNMENT_USER_ANSWERS_RESET:
+      const resetQuestions = state.payload.questions.map((question) => {
+        return { ...question, userAnswer: null };
+      });
+
+      return { ...state, payload: { ...state.payload, questions: resetQuestions }};
 
     default:
       return initialState;

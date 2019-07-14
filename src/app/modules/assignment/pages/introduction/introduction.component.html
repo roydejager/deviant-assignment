@@ -1,39 +1,51 @@
 <ng-container
   *ngIf="{
     assignment: assignment$ | async,
-    params: route.parent.params | async,
-    progression: progression$ | async
+    params: route.parent.params | async
   } as data"
 >
   <p>
     {{ data.assignment.payload.introText }}
   </p>
 
-    <ng-container *ngIf="data.progression">
-      <p>
-        Je bent al begonnena aan deze opdacht. Wil je verder gaan of de opdracht opnieuw maken?
-      </p>
-      <a
-        class="btn"
-        [routerLink]="['/', data.params.subject, data.params.assignmentType, data.params.assignmentId, 'vraag', '1']"
-      >
-        Opnieuw
-      </a>
+  <p *ngIf="progression && progression < data.assignment.payload.questions.length">
+    Je bent al begonnena aan deze opdacht. Wil je verder gaan of de opdracht opnieuw maken?
+  </p>
+  <p *ngIf="progression === data.assignment.payload.questions.length">
+    Je hebt de opdracht al gemaakt. Wil je de antwoorden bekijken of de opdracht opniew maken?
+  </p>
 
-      <a
-        class="btn btn-primary"
-        [routerLink]="['/', data.params.subject, data.params.assignmentType, data.params.assignmentId, 'vraag', data.progression]"
-      >
-        Ga verder
-      </a>
-    </ng-container>
+  <a
+    *ngIf="!progression"
+    class="btn"
+    [routerLink]="['/', data.params.subject, data.params.assignmentType, data.params.assignmentId, 'vraag', '1']"
+  >
+    Maak de opdracht
+  </a>
 
-    <ng-container *ngIf="!data.progression">
-      <a
-        class="btn"
-        [routerLink]="['/', data.params.subject, data.params.assignmentType, data.params.assignmentId, 'vraag', '1']"
-      >
-        Maak de opdracht
-      </a>
-    </ng-container>
+  <a
+    *ngIf="progression"
+    class="btn"
+    (click)="clearAssignment()"
+    [routerLink]="['/', data.params.subject, data.params.assignmentType, data.params.assignmentId, 'vraag', '1']"
+  >
+    Opnieuw
+  </a>
+
+  <a
+  *ngIf="progression && progression < data.assignment.payload.questions.length"
+    class="btn btn-primary"
+    [routerLink]="['/', data.params.subject, data.params.assignmentType, data.params.assignmentId, 'vraag', progression + 1]"
+  >
+    Ga verder
+  </a>
+
+  <a
+    *ngIf="progression === data.assignment.payload.questions.length"
+    class="btn btn-primary"
+    [routerLink]="['/', data.params.subject, data.params.assignmentType, data.params.assignmentId, 'antwoorden']"
+  >
+    Ga naar de antwoorden
+  </a>
+
 </ng-container>

@@ -7,7 +7,8 @@ export enum ActionTypes {
   ASSIGNMENT_FETCH_SUCCESS = '[Assignment] fetch success',
   ASSIGNMENT_FETCH_ERROR = '[Assignment] fetch error',
   ASSIGNMENT_FETCH_CANCEL = '[Assignment] fetch cancel',
-  ASSINGMENT_SET_USER_ANSWER = '[Assignment] set user answer'
+  ASSINGMENT_SET_USER_ANSWER = '[Assignment] set user answer',
+  ASSIGNMENT_USER_ANSWERS_RESET = '[Assignment] reset user answers'
 }
 
 export class AssignmentFetch implements Action {
@@ -36,6 +37,10 @@ export class AssignmentSetUserAnswer implements Action {
   readonly type = ActionTypes.ASSINGMENT_SET_USER_ANSWER;
 
   constructor(public payload) { }
+}
+
+export class AssignmentResetUserAnswers implements Action {
+  readonly type = ActionTypes.ASSIGNMENT_USER_ANSWERS_RESET;
 }
 
 export type AssignmentActions = ActionTypes;

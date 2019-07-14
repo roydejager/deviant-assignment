@@ -1,17 +1,19 @@
 <ng-container *ngIf="(assignment$ | async) as assignment">
   <h2>Jouw antwoorden</h2>
+
   <div *ngFor="let question of assignment.payload.questions">
     <h4>
       {{ question.question }}
     </h4>
-    <div [ngSwitch]="question.questionType">
-      <div
-        *ngSwitchCase="'multiple_choice'"
-        [ngClass]="validateAnswers(question.answers, question.userAnswer) ? 'correct' : 'incorrect'"
-      >
-        {{ question.userAnswer }}
-      </div>
-      <div *ngSwitchDefault class="answer-container">{{ question.userAnswer }}</div>
+
+    <div
+      [ngClass]="{
+        'incorrect': question.questionType === 'multiple_choice' && !validateAnswers(question.answers, question.userAnswer),
+        'correct': question.questionType === 'multiple_choice' && validateAnswers(question.answers, question.userAnswer),
+        'open-question': question.questionType === 'open_question'
+      }"
+    >
+      {{ question.userAnswer }}
     </div>
   </div>
 
