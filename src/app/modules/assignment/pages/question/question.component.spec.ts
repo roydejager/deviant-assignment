@@ -9,7 +9,7 @@ import { CalculateTotalPercentagePipe } from '../../../shared/pipes/delta-calcul
 import { StoreModule } from '@ngrx/store';
 import { reducers } from '../../../../store/reducers';
 import { ActivatedRoute, Data } from '@angular/router';
-import { By } from '@angular/platform-browser'
+import { By } from '@angular/platform-browser';
 
 describe('QuestionComponent', () => {
   let component: QuestionComponent;
@@ -88,5 +88,26 @@ describe('QuestionComponent', () => {
     const disabledButton = fixture.nativeElement.querySelector('button').disabled;
 
     expect(disabledButton).toBeTruthy();
+  });
+
+  it('should render radio buttons', () => {
+    component.currentQuestion = {
+      questionId: 1,
+      question: 'question',
+      questionType: 'multiple_choice',
+      answers: [
+        {
+          answer: 'Parlementaire democratie met constitutionele monarchie',
+          answerId: 1,
+          isCorrect: true
+        }
+      ],
+      userAnswer: null
+    };
+
+    fixture.detectChanges();
+
+    const input = fixture.nativeElement.querySelector('input');
+    expect(input).toBeTruthy();
   });
 });
