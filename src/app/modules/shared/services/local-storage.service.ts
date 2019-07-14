@@ -28,4 +28,8 @@ export class LocalStorageService {
     return JSON.parse(localStorage.getItem(key));
   }
 
+  removeItem(key: string) {
+    localStorage.removeItem(key);
+  }
+
 }

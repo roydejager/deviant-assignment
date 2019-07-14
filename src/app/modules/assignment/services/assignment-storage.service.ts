@@ -1,52 +1,63 @@
 import { LocalStorageService } from '../../../modules/shared/services/local-storage.service';
 import { Injectable } from '@angular/core';
 
-interface AssignmentStorage {
+export interface StoredAnswer {
+  questionId: number;
+  userAnswer: string;
+  submitted: boolean;
+}
+
+export interface StoredAssignment {
   assignmentId: number;
-  answers: {
-    questionId: number;
-    userAnswer: string;
-    submitted: boolean;
-  }[];
+  answers: StoredAnswer[];
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class AssignmentStorageService {
-  private currentAssignment;
 
   constructor(
-    private localstore: LocalStorageService
+    private localstorage: LocalStorageService
   ) { }
 
-  setCurrentSubject(subject: string, assignments: AssignmentStorage[]) {
-    return this.localstore.setItem(subject, assignments);
+  public setCurrentSubject(subject: string, assignments: StoredAssignment[]): void {
+    this.localstorage.setItem(subject, assignments);
   }
 
-  getCurrentSubject(subject: string) {
-    const currentAssignment = JSON.parse(localStorage.getItem(subject));
-    this.currentAssignment = currentAssignment;
-
-    return currentAssignment;
+  public getCurrentSubject(subject: string): StoredAssignment[] {
+    return JSON.parse(localStorage.getItem(subject));
   }
 
-  getCurrentAssignment(id: number) {
-    return this.currentAssignment.find((assignment: AssignmentStorage) => assignment.assignmentId === id);
+  public removeCurrentSubject(subject: string) {
+    this.localstorage.removeItem(subject);
   }
 
-  public getCurrentAssignmentAnswers(assignmentId: number) {
-    console.log(this.getCurrentAssignment(assignmentId), assignmentId);
-    return this.getCurrentAssignment(assignmentId).answers;
+  public getCurrentAssignment(subject: string, id: number): StoredAssignment {
+    const currentSubject = this.getCurrentSubject(subject);
+
+    if (currentSubject) {
+      return currentSubject.find((assignment: StoredAssignment) => assignment.assignmentId === id);
+    }
   }
 
-  public getCurrentAssignmentIndex(assignmentId: number) {
-    return this.currentAssignment.findIndex(assignment => assignment.assignmentId === assignmentId);
+  public getCurrentAssignmentIndex(subject: string, assignmentId: number): number {
+    const currentSubject = this.getCurrentSubject(subject);
+
+    return currentSubject.findIndex((assignment: StoredAssignment) => assignment.assignmentId === assignmentId);
   }
 
-  public getCurrentAnswerIndex(assignmentId: number, questionId: number) {
-    return this.getCurrentAssignmentAnswers(assignmentId).findIndex((answer) => answer.questionId === questionId);
+  public getCurrentAnswerIndex(subject: string, assignmentId: number, questionId: number): number {
+    return this.getCurrentAssignment(subject, assignmentId).answers.findIndex((answer: StoredAnswer) => answer.questionId === questionId);
   }
 
+  public removeAssignment(subject: string, assignmentId: number): void {
+    const currentSubject = this.getCurrentSubject(subject);
 
+    const filteredAssignments = currentSubject.filter((assignment: StoredAssignment) => {
+      return assignment.assignmentId !== assignmentId;
+    });
+
+    this.setCurrentSubject(subject, filteredAssignments);
+  }
 }

@@ -15,14 +15,12 @@ import { InMememoryDataService } from './services/in-memory-data.service';
 import { LocalStorageService } from './services/local-storage.service';
 
 // Components
-import { TextareaComponent } from './components/textarea/textarea.component';
-import { RadioButtonsComponent } from './components/radio-buttons/radio-buttons.component';
+import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
 
 
 @NgModule({
   declarations: [
-    TextareaComponent,
-    RadioButtonsComponent,
+    ProgressBarComponent,
     CalculateTotalPercentagePipe
   ],
   imports: [
@@ -32,8 +30,7 @@ import { RadioButtonsComponent } from './components/radio-buttons/radio-buttons.
     HttpClientInMemoryWebApiModule.forRoot(InMememoryDataService),
   ],
   exports: [
-    TextareaComponent,
-    RadioButtonsComponent,
+    ProgressBarComponent,
     CalculateTotalPercentagePipe
   ]
 })
