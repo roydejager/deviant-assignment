@@ -2,13 +2,21 @@
   width: 100%;
   background-color: #fff;
   padding: 10px 0;
-  height: 85px;
+  height: 65px;
+
+  @media (min-width: 768px) {
+    height: 85px;
+  }
 }
 
 .logo {
   margin: 0 auto;
   width: auto;
-  height: 65px;
+  height: 45px;
+
+  @media (min-width: 768px) {
+    height: 65px;
+  }
 }
 
 .content-container {

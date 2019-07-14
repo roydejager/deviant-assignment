@@ -3,7 +3,7 @@
     progression: progression$ | async
   } as data"
 >
-  <!-- Displays the current question and the question number -->
+  <!-- Displays the current question and the current question number -->
   <h4 class="current-question">
     Vraag {{ params.questionNumber }} / {{ data.assignment.payload.questions?.length }}
   </h4>
@@ -31,6 +31,8 @@
         </clr-radio-container>
 
         <clr-textarea-container *ngSwitchCase="'open_question'">
+          <!-- This label has to be here otherwise it can't be hidden -->
+          <label></label>
           <textarea
             name="textarea"
             [ngModel]="currentQuestion.userAnswer"
@@ -58,27 +60,20 @@
 
   <!-- Screen when a question has been submitted -->
   <div *ngIf="turnedIn">
-    <ng-container [ngSwitch]="currentQuestion?.questionType">
-      <div *ngSwitchCase="'open_question'">
-        <div>
-          jouw antwoord:
-          <div class="answer-container">
-            {{currentQuestion.userAnswer}}
-          </div>
-        </div>
+    <div class="your-answer-container">
+      jouw antwoord:
+    </div>
+    <div class="user-answer-container">
+      <div
+        [ngClass]="{
+          'incorrect': currentQuestion?.questionType === 'multiple_choice' && !validateAnswer(currentQuestion?.userAnswer),
+          'correct': currentQUestion?.questionType === 'multiple_choice' && validateAnswer(currentQuestion?.userAnswer),
+          'open-question': currentQuestion?.questionType === 'open_question'
+        }"
+      >
+        {{currentQuestion.userAnswer}}
       </div>
-
-      <div class="" *ngSwitchCase="'multiple_choice'">
-        <div class="radio-buttons-container" *ngSwitchCase="'multiple_choice'">
-          jouw antwoord:
-          <div
-            [ngClass]="validateAnswer(currentQuestion.userAnswer) ? 'correct' : 'wrong'"
-          >
-            {{currentQuestion.userAnswer}}
-          </div>
-        </div>
-      </div>
-    </ng-container>
+    </div>
 
     <!-- Buttons that dynamicly gets set based on if there's a next question -->
     <a
@@ -104,7 +99,7 @@
     [routerLink]="['/', params.subject, params.assignmentType, params.assignmentId, 'vraag', params.questionNumber - 1]"
   >
     <div class="qst-btn previous">
-      <clr-icon shape="angle left" size="70" class="is-inverse"></clr-icon>
+      <clr-icon shape="angle left" class="is-inverse"></clr-icon>
     </div>
   </a>
   <a
@@ -112,7 +107,7 @@
     [routerLink]="['/', params.subject, params.assignmentType, params.assignmentId, 'vraag', params.questionNumber + 1]"
   >
     <div class="qst-btn next">
-      <clr-icon shape="angle right" size="70" class="is-inverse"></clr-icon>
+      <clr-icon shape="angle right" class="is-inverse"></clr-icon>
     </div>
   </a>
 

@@ -1,5 +1,3 @@
-import { AssignmentSetUserAnswer } from './../../../../store/actions/assignment.actions';
-import { AssignmentReducerState } from './../../../../store/reducers/assignment.reducer';
 import { Answer } from './../../../../models/answer';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -9,9 +7,10 @@ import { Store } from '@ngrx/store';
 import { combineLatest, BehaviorSubject, Subscription, Observable } from 'rxjs';
 
 import { AssignmentStorageService, StoredAnswer, StoredAssignment } from './../../services/assignment-storage.service';
-
 import { Question } from '../../../../models/question';
 import { State } from '../../../../store/reducers';
+import { AssignmentSetUserAnswer } from './../../../../store/actions/assignment.actions';
+import { AssignmentReducerState } from './../../../../store/reducers/assignment.reducer';
 
 interface Params {
   questionNumber: number;
