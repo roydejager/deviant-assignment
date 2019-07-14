@@ -82,7 +82,6 @@ export class QuestionComponent implements OnInit, OnDestroy {
   }
 
   public onChange(value: string, submit: boolean): void {
-    console.log(value)
     this.store.dispatch(new AssignmentSetUserAnswer({ value, questionId: this.currentQuestion.questionId }));
     let assignments = this.storage.getCurrentSubject(this.params.subject);
     const parsedAssignmentId = this.params.assignmentId;

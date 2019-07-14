@@ -1,3 +1,4 @@
+import { Answer } from './../../models/answer';
 import { Action } from '@ngrx/store';
 
 import { Assignment } from '../../models';
@@ -14,7 +15,7 @@ export enum ActionTypes {
 export class AssignmentFetch implements Action {
   readonly type = ActionTypes.ASSIGNMENT_FETCH;
 
-  constructor(public payload) { }
+  constructor(public payload: { id: number }) { }
 }
 
 export class AssignmentFetchSuccess implements Action {
@@ -26,7 +27,7 @@ export class AssignmentFetchSuccess implements Action {
 export class AssignmentFetchError implements Action {
   readonly type = ActionTypes.ASSIGNMENT_FETCH_ERROR;
 
-  constructor(public payload) { }
+  constructor(public payload: { error: boolean, errorMessage: string }) { }
 }
 
 export class AssignmentFetchCancel implements Action {
@@ -36,7 +37,7 @@ export class AssignmentFetchCancel implements Action {
 export class AssignmentSetUserAnswer implements Action {
   readonly type = ActionTypes.ASSINGMENT_SET_USER_ANSWER;
 
-  constructor(public payload) { }
+  constructor(public payload: { value: string, questionId: number }) { }
 }
 
 export class AssignmentResetUserAnswers implements Action {

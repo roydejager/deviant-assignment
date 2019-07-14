@@ -49,7 +49,7 @@
       <button
         (click)="onChange(currentQuestion.userAnswer, true)"
         type="submit"
-        class="btn"
+        class="btn submit-button"
         [disabled]="!currentQuestion?.userAnswer"
         name="submit"
       >
@@ -59,7 +59,7 @@
   </div>
 
   <!-- Screen when a question has been submitted -->
-  <div *ngIf="turnedIn">
+  <div class="user-answers-container" *ngIf="turnedIn">
     <div class="your-answer-container">
       jouw antwoord:
     </div>
@@ -67,7 +67,7 @@
       <div
         [ngClass]="{
           'incorrect': currentQuestion?.questionType === 'multiple_choice' && !validateAnswer(currentQuestion?.userAnswer),
-          'correct': currentQUestion?.questionType === 'multiple_choice' && validateAnswer(currentQuestion?.userAnswer),
+          'correct': currentQuestion?.questionType === 'multiple_choice' && validateAnswer(currentQuestion?.userAnswer),
           'open-question': currentQuestion?.questionType === 'open_question'
         }"
       >
