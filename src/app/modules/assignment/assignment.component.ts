@@ -7,8 +7,6 @@ import { Subscription, Observable } from 'rxjs';
 
 import { AssignmentFetch } from '../../store/actions/assignment.actions';
 
-import { ApiService } from '../shared/services/api.service';
-
 @Component({
   selector: 'app-assignment',
   templateUrl: './assignment.component.html',
@@ -20,9 +18,7 @@ export class AssignmentComponent implements OnInit, OnDestroy {
   params;
   constructor(
     private store: Store<{ assignment }>,
-    private router: Router,
     private route: ActivatedRoute,
-    private api: ApiService
   ) {
     this.assignment$ = this.store.select(state => state.assignment);
   }

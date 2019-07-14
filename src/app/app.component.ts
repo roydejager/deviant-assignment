@@ -8,12 +8,9 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'deviant-assignment';
 
-  constructor(private api: ApiService, private route: ActivatedRoute) {}
+  constructor() {}
+
   ngOnInit() {
-    this.route.params.subscribe((f) => {
-
-    });
   }
 }
